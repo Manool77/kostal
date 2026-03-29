@@ -1,40 +1,17 @@
-name: Build for Synology DS418play (ARM64)
-
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:       # Manuell über den Actions-Tab auslösbar
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.24'
-
-      - name: Download dependencies
-        run: go mod download
-
-      - name: Build for ARM64 (Synology DS418play / Realtek RTD1296)
+- name: Build for x86_64 (Synology DS418play / Intel J3355)
         env:
           GOOS: linux
-          GOARCH: arm64
+          GOARCH: amd64
           CGO_ENABLED: '0'
         run: |
-          go build -ldflags="-w -s" -o kostal_arm64 ./cmd/frame/
+          go build -ldflags="-w -s" -o kostal_amd64 ./cmd/frame/
 
       - name: Upload binary as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: kostal-arm64-synology
+          name: kostal-amd64-synology
           path: |
-            kostal_arm64
+            kostal_amd64
             web/
             forecasts.json
           retention-days: 30
