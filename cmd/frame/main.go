@@ -30,6 +30,7 @@ func main() {
 
 	http.HandleFunc("/", handler.Web)
 	http.HandleFunc("/forecast", handler.RenderForecast)
+	http.HandleFunc("/api/data", handler.JsonData)
 	if err := http.ListenAndServe(":8090", nil); err != nil {
 		panic(err)
 	}
